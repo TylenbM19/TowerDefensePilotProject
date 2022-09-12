@@ -7,7 +7,7 @@ public class EnemyMovement : MonoBehaviour
     private Transform _point;
     private int _currentPosition;
 
-    private void Start()
+    private void Awake()
     {
         _point = WayPoints.Points[0];
     }

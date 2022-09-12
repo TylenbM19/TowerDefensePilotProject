@@ -7,8 +7,8 @@ public class TowerDefense : MonoBehaviour
 {
     [SerializeField] private float _rangeAttack;
     [SerializeField] private Transform _rotateHead;
-    [SerializeField] private float _fireRate;
     [SerializeField] private Bullet _bullet;
+    //[SerializeField] private float _fireRate;
     [SerializeField] private Transform _firePointPosition;
 
     private const string enemyTarget = "Enemy";
