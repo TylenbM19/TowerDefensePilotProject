@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,8 +10,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] private PointFinished _pointFinished;
 
     public static event UnityAction<int> GetValueAfterDeath;
-
-    //private int _currentHealth;
 
     private void Start()
     {
