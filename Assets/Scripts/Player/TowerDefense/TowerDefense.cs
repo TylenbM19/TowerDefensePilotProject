@@ -4,7 +4,6 @@ using UnityEngine.Events;
 public class TowerDefense : PoolObject
 {
     [SerializeField] private Transform _rotateHead;
-    [SerializeField] private GameObject _bullet;
     [SerializeField] private Transform _firePointPosition;
     [SerializeField] private float _rangeAttack;
     [SerializeField] private int _price;
@@ -15,11 +14,6 @@ public class TowerDefense : PoolObject
     private GameObject _target;
 
     public static event UnityAction<int> OnDamage;
-
-    private void Awake()
-    {
-        Initialize(_bullet);
-    }
 
     private void Start()
     {
@@ -43,8 +37,9 @@ public class TowerDefense : PoolObject
         _rotateHead.rotation = Quaternion.Euler(0f, rotation.y, 0f);
     }
 
-    private void Shoot(GameObject bullet)
+    private void Shoot()
     {
+        GameObject bullet = GetObject();
         bullet.SetActive(true);
         bullet.transform.position = _firePointPosition.position;
         bullet.transform.rotation = _rotateHead.transform.rotation;
@@ -70,11 +65,7 @@ public class TowerDefense : PoolObject
         if (currentTarget != null && shortesDistance <= _rangeAttack)
         {
             _target = currentTarget;
-
-            if (TryGetComponent(out GameObject bullet))
-            {
-                Shoot(bullet);
-            }
+            Shoot();
         }
         else
             _target = null;

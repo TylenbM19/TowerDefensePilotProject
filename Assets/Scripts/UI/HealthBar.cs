@@ -11,14 +11,21 @@ public class HealthBar : MonoBehaviour
     private float _changeValue = 1f;
     private PlayerWindow _playerWindow;
 
+    private void OnEnable()
+    {
+        if (_playerWindow != null)
+            _playerWindow.OnHealthChanged += OnValueChanged;
+    }
+
     private void Start()
     {
         _playerWindow = Service.Instance.Get<PlayerWindow>();
-        _playerWindow.OnHealthChanged += OnValueChanged;
+
+        OnEnable();
     }
 
     private void OnDisable()
-    {     
+    {
         _playerWindow.OnHealthChanged -= OnValueChanged;
     }
 

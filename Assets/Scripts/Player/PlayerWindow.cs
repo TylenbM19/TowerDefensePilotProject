@@ -44,7 +44,6 @@ public class PlayerWindow : MonoBehaviour
 
     private void Start()
     {
-
         _currentHealth = _maxHealth;
         CurrentEnergy = _energy;
     }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TowerPlace : MonoBehaviour
 {
+    [SerializeField] private GameObject _container;
+
     private TowerDefense _tower;
 
     private void OnEnable()
@@ -19,6 +21,7 @@ public class TowerPlace : MonoBehaviour
     private void OnMouseDown()
     {
         TowerDefense currentDefense = Instantiate(_tower, transform.position, Quaternion.identity);
+        currentDefense.SetContainer(_container);
         _tower = null;
     }
 
@@ -26,4 +29,6 @@ public class TowerPlace : MonoBehaviour
     {
         _tower = towerDefense;
     }
+
+
 }
