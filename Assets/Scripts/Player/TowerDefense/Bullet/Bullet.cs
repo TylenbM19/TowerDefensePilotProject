@@ -16,10 +16,10 @@ public class Bullet : MonoBehaviour
     {
         if (other.transform == _target.transform)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
             _target.GetComponent<Enemy>()?.TakeDamage(-_damage);
         }
-            Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     public void Seek(GameObject target)
@@ -32,8 +32,7 @@ public class Bullet : MonoBehaviour
         if (_target == null)
             return;
 
-        Vector3 direction = _target.transform.position - transform.position;
-        transform.Translate(direction.normalized * _speed * Time.deltaTime, Space.World);
+        transform.Translate(Vector3.forward * _speed * Time.deltaTime);
     }
 }
 

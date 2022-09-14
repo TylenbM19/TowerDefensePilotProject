@@ -1,21 +1,25 @@
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
-public class TowerDefense : MonoBehaviour
+public class TowerDefense : PoolObject
 {
     [SerializeField] private Transform _rotateHead;
-    [SerializeField] private Bullet _bullet;
+    [SerializeField] private GameObject _bullet;
     [SerializeField] private Transform _firePointPosition;
     [SerializeField] private float _rangeAttack;
-    [SerializeField] private int _price; 
+    [SerializeField] private int _price;
 
-    public int price {get;private set;}
+    public int price { get; private set; }
 
     private const string enemyTarget = "Enemy";
     private GameObject _target;
 
     public static event UnityAction<int> OnDamage;
+
+    private void Awake()
+    {
+        Initialize(_bullet);
+    }
 
     private void Start()
     {
@@ -26,6 +30,7 @@ public class TowerDefense : MonoBehaviour
     {
         if (_target == null)
             return;
+
         RotateHead();
     }
 
@@ -38,13 +43,11 @@ public class TowerDefense : MonoBehaviour
         _rotateHead.rotation = Quaternion.Euler(0f, rotation.y, 0f);
     }
 
-    private void Shoot()
+    private void Shoot(GameObject bullet)
     {
-        Bullet bulletGO = Instantiate(_bullet, _firePointPosition.position, _firePointPosition.rotation);
-        Bullet bullet = bulletGO.GetComponent<Bullet>();
-
-        if (bullet != null)
-            bullet.Seek(_target);
+        bullet.SetActive(true);
+        bullet.transform.position = _firePointPosition.position;
+        bullet.transform.rotation = _rotateHead.transform.rotation;
     }
 
     private void UpdateTarget()
@@ -67,7 +70,11 @@ public class TowerDefense : MonoBehaviour
         if (currentTarget != null && shortesDistance <= _rangeAttack)
         {
             _target = currentTarget;
-            Shoot();
+
+            if (TryGetComponent(out GameObject bullet))
+            {
+                Shoot(bullet);
+            }
         }
         else
             _target = null;

@@ -9,7 +9,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int _currentHealth;
     [SerializeField] private PointFinished _pointFinished;
 
-    public static event UnityAction<int> GetValueAfterDeath;
+    public static event UnityAction<int> OnReward;
+    public static event UnityAction<int> OnDamage;
 
     private void Start()
     {
@@ -33,7 +34,7 @@ public class Enemy : MonoBehaviour
         if (_currentHealth <= 0)
         {
             Die();
-            GetValueAfterDeath?.Invoke(_reward);
+            OnReward?.Invoke(_reward);
         }
     }
 
@@ -42,7 +43,7 @@ public class Enemy : MonoBehaviour
         if(other.TryGetComponent(out PointFinished point))
         {
             Die();
-            GetValueAfterDeath?.Invoke(-_damage);
+            OnDamage?.Invoke(-_damage);
         }
     }
 

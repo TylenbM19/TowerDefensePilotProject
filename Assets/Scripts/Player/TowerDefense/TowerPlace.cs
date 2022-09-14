@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class TowerPlace : MonoBehaviour
 {
-    [SerializeField] private TowerDefense _tower;
+    private TowerDefense _tower;
 
     private void OnEnable()
     {
-        PlayerWindow.OnTower += ApplyObject;
+        Service.Instance.Get<PlayerWindow>().OnTower += ApplyObject;
     }
 
     private void OnDisable()
     {
-        PlayerWindow.OnTower -= ApplyObject;
+        Service.Instance.Get<PlayerWindow>().OnTower -= ApplyObject;
     }
 
     private void OnMouseDown()
