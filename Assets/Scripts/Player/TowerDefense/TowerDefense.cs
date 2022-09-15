@@ -1,19 +1,28 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TowerDefense : PoolObject
+public class TowerDefense : MonoBehaviour
 {
     [SerializeField] private Transform _rotateHead;
     [SerializeField] private Transform _firePointPosition;
+    [SerializeField] private Bullet _bulletPrefab;
     [SerializeField] private float _rangeAttack;
     [SerializeField] private int _price;
+    [SerializeField] private float _shootDelay;
 
     public int price { get; private set; }
 
+    private Pool<Bullet> _bulletPool;
     private const string enemyTarget = "Enemy";
     private GameObject _target;
 
     public static event UnityAction<int> OnDamage;
+
+    private void Awake()
+    {
+        _bulletPool = new Pool<Bullet>(_bulletPrefab);
+    }
 
     private void Start()
     {
@@ -39,11 +48,19 @@ public class TowerDefense : PoolObject
 
     private void Shoot()
     {
-        GameObject bullet = GetObject();
-        bullet.SetActive(true);
-        bullet.transform.position = _firePointPosition.position;
-        bullet.transform.rotation = _rotateHead.transform.rotation;
+        Debug.Log("shoot");
+        GetBullet();
     }
+
+    private void GetBullet()
+    {
+        Bullet bullet = _bulletPool.Get();
+        bullet.gameObject.SetActive(true);
+        bullet.SetPosition(_firePointPosition.position);
+        bullet.SetRotation(_rotateHead.rotation);
+        bullet.Attack(_target.transform.position);      
+    }
+
 
     private void UpdateTarget()
     {
@@ -65,6 +82,7 @@ public class TowerDefense : PoolObject
         if (currentTarget != null && shortesDistance <= _rangeAttack)
         {
             _target = currentTarget;
+
             Shoot();
         }
         else

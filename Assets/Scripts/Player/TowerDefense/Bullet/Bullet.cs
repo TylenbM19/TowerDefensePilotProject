@@ -1,38 +1,65 @@
+using System.Collections;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private float _speed = 70f;
+    [SerializeField] private float _speed = 0.1f;
     [SerializeField] private int _damage;
 
-    private GameObject _target;
+    private WaitForFixedUpdate _waitForFixed;
+    private Vector3 _target;
+    private Coroutine _moveJob;
 
-    private void Update()
-    {    
-        Move();
+    private void Awake()
+    {
+        _waitForFixed = new WaitForFixedUpdate();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform == _target.transform)
+        if (other.TryGetComponent<Enemy>(out Enemy enemy))
         {
+            enemy.TakeDamage(-_damage);
             gameObject.SetActive(false);
-            _target.GetComponent<Enemy>()?.TakeDamage(-_damage);
+            StopMove();
         }
-        gameObject.SetActive(false);
     }
 
-    public void Seek(GameObject target)
+    public void SetPosition(Vector3 position)
+    {
+        transform.position = position;
+    }
+
+    public void SetRotation(Quaternion rotation)
+    {
+        transform.rotation = rotation;
+    }
+
+    public void Attack(Vector3 target)
     {
         _target = target;
+        StartMove();
     }
 
-    private void Move()
+    private void StartMove()
     {
-        if (_target == null)
-            return;
+        StopMove();
+        _moveJob =  StartCoroutine(MoveCoroutine());
+    }
 
-        transform.Translate(Vector3.forward * _speed * Time.deltaTime);
+    private void StopMove()
+    {
+        if (_moveJob != null)
+            StopCoroutine(_moveJob);
+    }
+
+    private IEnumerator MoveCoroutine()
+    {
+        while (_target != transform.position)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, _target, _speed);
+            yield return _waitForFixed;
+        }
     }
 }
 

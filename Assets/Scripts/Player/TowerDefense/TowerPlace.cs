@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class TowerPlace : MonoBehaviour
 {
-    [SerializeField] private GameObject _container;
-
     private TowerDefense _tower;
 
-    private void OnEnable()
+    private void Start()
     {
         Service.Instance.Get<PlayerWindow>().OnTower += ApplyObject;
     }
+
 
     private void OnDisable()
     {
@@ -21,14 +20,10 @@ public class TowerPlace : MonoBehaviour
     private void OnMouseDown()
     {
         TowerDefense currentDefense = Instantiate(_tower, transform.position, Quaternion.identity);
-        currentDefense.SetContainer(_container);
-        _tower = null;
     }
 
     private void ApplyObject(TowerDefense towerDefense)
     {
         _tower = towerDefense;
     }
-
-
 }
