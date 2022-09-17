@@ -6,25 +6,15 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int _health;
     [SerializeField] private int _damage;
     [SerializeField] private int _reward;
-    [SerializeField] private int _currentHealth;
-    [SerializeField] private PointFinished _pointFinished;
 
     public static event UnityAction<int> OnReward;
     public static event UnityAction<int> OnDamage;
 
+    private int _currentHealth;
+
     private void Start()
     {
         _currentHealth = _health;
-    }
-
-    private void OnEnable()
-    {
-        TowerDefense.OnDamage += TakeDamage;
-    }
-
-    private void OnDisable()
-    {
-        TowerDefense.OnDamage -= TakeDamage;      
     }
 
     public void TakeDamage(int damage)
@@ -49,6 +39,6 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-        GameObject.Destroy(this.gameObject);
+        Destroy(this.gameObject);
     }
 }

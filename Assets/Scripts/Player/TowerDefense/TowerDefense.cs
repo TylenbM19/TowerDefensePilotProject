@@ -11,13 +11,11 @@ public class TowerDefense : MonoBehaviour
     [SerializeField] private int _price;
     [SerializeField] private float _shootDelay;
 
-    public int price { get; private set; }
+    public int Price { get => _price; private set { } }
 
     private Pool<Bullet> _bulletPool;
     private const string enemyTarget = "Enemy";
     private GameObject _target;
-
-    public static event UnityAction<int> OnDamage;
 
     private void Awake()
     {
@@ -48,7 +46,6 @@ public class TowerDefense : MonoBehaviour
 
     private void Shoot()
     {
-        Debug.Log("shoot");
         GetBullet();
     }
 

@@ -15,7 +15,6 @@ public class Pool<T> where T : MonoBehaviour
     {
         _prefab = prefab;
     }
-
     public T Get()
     {
         return GetDisable() ?? Create();
