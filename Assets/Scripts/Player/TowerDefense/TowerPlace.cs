@@ -1,14 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class TowerPlace : MonoBehaviour
 {
     private TowerDefense _tower;
     private Player _player;
-
-    public event UnityAction<bool> OnReset;
 
     private void Start()
     {
@@ -26,10 +21,11 @@ public class TowerPlace : MonoBehaviour
         if (_tower != null)
         {
             Instantiate();
+            _player.DisableBuild();
         }
     }
 
-    private void ApplyObject(TowerDefense towerDefense)
+    private void ApplyObject(TowerDefense? towerDefense)
     {
         _tower = towerDefense;
     }
@@ -38,6 +34,6 @@ public class TowerPlace : MonoBehaviour
     {
         Instantiate(_tower, transform.position, Quaternion.identity);
         _player.Bye(_tower.Price);
-        OnReset?.Invoke(true);
+        _tower = null;
     }
 }

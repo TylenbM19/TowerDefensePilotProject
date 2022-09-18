@@ -1,6 +1,4 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class TowerDefense : MonoBehaviour
 {
@@ -9,7 +7,7 @@ public class TowerDefense : MonoBehaviour
     [SerializeField] private Bullet _bulletPrefab;
     [SerializeField] private float _rangeAttack;
     [SerializeField] private int _price;
-    [SerializeField] private float _shootDelay;
+    [SerializeField] private AudioSource _shootSound;
 
     public int Price { get => _price; private set { } }
 
@@ -47,6 +45,7 @@ public class TowerDefense : MonoBehaviour
     private void Shoot()
     {
         GetBullet();
+        _shootSound.Play();
     }
 
     private void GetBullet()
@@ -55,9 +54,8 @@ public class TowerDefense : MonoBehaviour
         bullet.gameObject.SetActive(true);
         bullet.SetPosition(_firePointPosition.position);
         bullet.SetRotation(_rotateHead.rotation);
-        bullet.Attack(_target.transform.position);      
+        bullet.Attack(_target.transform.position);
     }
-
 
     private void UpdateTarget()
     {

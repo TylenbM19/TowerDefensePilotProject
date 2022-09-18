@@ -25,6 +25,15 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.TryGetComponent<Wall>(out Wall wall))
+        {
+            gameObject.SetActive(false);
+            StopMove();
+        }
+    }
+
     public void SetPosition(Vector3 position)
     {
         transform.position = position;
@@ -57,7 +66,7 @@ public class Bullet : MonoBehaviour
     {
         while (_target != transform.position)
         {
-            transform.position = Vector3.MoveTowards(transform.position, _target, _speed);
+            transform.Translate(Vector3.forward * _speed);
             yield return _waitForFixed;
         }
     }

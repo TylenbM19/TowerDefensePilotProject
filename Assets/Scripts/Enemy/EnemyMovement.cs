@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 [RequireComponent(typeof(Enemy))]
 public class EnemyMovement : MonoBehaviour
 {
@@ -45,7 +44,6 @@ public class EnemyMovement : MonoBehaviour
     {
         transform.position = Vector3.MoveTowards(transform.position, target.position, _speed * Time.deltaTime);
     }
-
 
     private void Rotation(Transform target)
     {

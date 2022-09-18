@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int _health;
     [SerializeField] private int _damage;
     [SerializeField] private int _reward;
+    [SerializeField] private ParticleSystem _particleSystem;
 
     public static event UnityAction<int> OnReward;
     public static event UnityAction<int> OnDamage;
@@ -39,6 +40,7 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-        Destroy(this.gameObject);
+        Instantiate(_particleSystem, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 }

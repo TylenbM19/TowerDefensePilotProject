@@ -20,7 +20,6 @@ public class HealthBar : MonoBehaviour
     private void Start()
     {
         _playerWindow = Service.Instance.Get<Player>();
-
         OnEnable();
     }
 
