@@ -2,13 +2,14 @@ using UnityEngine;
 
 public class Bilder : MonoBehaviour
 {
-    private TowerDefense _selectedBulding = null;
     [SerializeField] private Camera _camera;
+
+    private TowerDefense _selectedBulding = null;
 
     private void Update()
     {
         if (Input.GetMouseButton(0))
-            Metod();
+            BuldingSiteSearch();
     }
 
     public void SelectBulding(TowerDefense bulding)
@@ -16,7 +17,7 @@ public class Bilder : MonoBehaviour
         _selectedBulding = bulding;
     }
 
-    private void Metod()
+    private void BuldingSiteSearch()
     {
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 
