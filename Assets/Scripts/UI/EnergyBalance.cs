@@ -8,14 +8,14 @@ public class EnergyBalance : MonoBehaviour
 
     private void OnDisable()
     {
-        _playerWindow.OnReward -= ChangeBalance;
+        _playerWindow.CurrentBalanse -= ChangeBalance;
     }
 
     private void Start()
     {
         _playerWindow = Service.Instance.Get<Player>();
         _energy.text = _playerWindow.CurrentEnergy.ToString();
-        _playerWindow.OnReward += ChangeBalance;
+        _playerWindow.CurrentBalanse += ChangeBalance;
     }
 
     private void ChangeBalance(int reward)

@@ -1,23 +1,25 @@
 using UnityEngine;
-using static System.Net.Mime.MediaTypeNames;
 
 public class GameOver : MonoBehaviour
 {
     [SerializeField] private GameObject _plane;
 
+    private Player _player;
+
     private void Awake()
     {
+        _player = Service.Instance.Get<Player>();
         _plane.SetActive(false);
     }
 
     private void Start()
     {
-        Player.OnDie += OnDie;
+        _player.OnDie += OnDie;
     }
 
     private void OnDisable()
     {
-        Player.OnDie -= OnDie;
+        _player.OnDie -= OnDie;
     }
 
     private void OnDie()

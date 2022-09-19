@@ -12,7 +12,13 @@ public class Spawner : MonoBehaviour
     private int _maxIndex = 10;
     private int _currentIndexEnemy = 0;
     private int _currentIndex = 0;
-    private float _waitForSeconds = 2.5f;
+    private float _second = 2.5f;
+    private WaitForSeconds _waitForSeconds;
+
+    private void Awake()
+    {
+        _waitForSeconds = new WaitForSeconds(_second);
+    }
 
     private void Start()
     {
@@ -21,15 +27,15 @@ public class Spawner : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(_enemy[_currentIndexEnemy] == null)
+        if (_enemy[_currentIndexEnemy] == null)
             StopAllCoroutines();
     }
 
     IEnumerator SpawnWave()
     {
-        while (_maxIndex  >= _currentIndex)
+        while (_maxIndex >= _currentIndex)
         {
-            yield return new WaitForSeconds(_waitForSeconds);
+        yield return _waitForSeconds;
             _spawnEffect.Play();
             _spawnSound.Play();
             SpawnEnemy();
@@ -40,7 +46,7 @@ public class Spawner : MonoBehaviour
                 _currentIndex = 0;
             }
             else
-            ++_currentIndex;
+                ++_currentIndex;
         }
     }
 

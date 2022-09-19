@@ -1,11 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class Pool<T> where T : MonoBehaviour
 {
-    private T _prefab;
+    readonly private T _prefab;
 
     public int Count => _pool.Count;
 
@@ -15,6 +13,7 @@ public class Pool<T> where T : MonoBehaviour
     {
         _prefab = prefab;
     }
+
     public T Get()
     {
         return GetDisable() ?? Create();

@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TowerDefense : MonoBehaviour
@@ -13,16 +15,21 @@ public class TowerDefense : MonoBehaviour
 
     private Pool<Bullet> _bulletPool;
     private const string enemyTarget = "Enemy";
-    private GameObject _target;
+    private List<Enemy> _enemies = new List<Enemy>();
+    private Enemy _target;
+    private Coroutine _coroutine;
+    private WaitForSeconds _waitForSecond;
+    private float _shootDelay = 1f;
 
     private void Awake()
     {
         _bulletPool = new Pool<Bullet>(_bulletPrefab);
+        _waitForSecond = new WaitForSeconds(_shootDelay);
     }
 
     private void Start()
     {
-        InvokeRepeating("UpdateTarget", 0f, 1f);
+        _coroutine = StartCoroutine(MoveCoroutine());
     }
 
     private void FixedUpdate()
@@ -31,6 +38,32 @@ public class TowerDefense : MonoBehaviour
             return;
 
         RotateHead();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent<Enemy>(out Enemy enemy))
+        {
+            _enemies.Add(enemy);
+            enemy.Died += RemoveInspectedEnemy;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.TryGetComponent<Enemy>(out Enemy enemy))
+        {
+            enemy.Died -= RemoveInspectedEnemy;
+            RemoveInspectedEnemy(enemy);
+        }
+    }
+
+    private void RemoveInspectedEnemy(Enemy enemy)
+    {
+        if (_target == enemy)
+            _target = null;
+
+        _enemies.Remove(enemy);
     }
 
     private void RotateHead()
@@ -42,6 +75,19 @@ public class TowerDefense : MonoBehaviour
         _rotateHead.rotation = Quaternion.Euler(0f, rotation.y, 0f);
     }
 
+    private IEnumerator MoveCoroutine()
+    {
+        while (true)
+        {
+            if (_target != null)
+                Shoot();
+            else
+                UpdateTarget();
+
+            yield return _waitForSecond;
+        }
+    }
+
     private void Shoot()
     {
         GetBullet();
@@ -51,19 +97,18 @@ public class TowerDefense : MonoBehaviour
     private void GetBullet()
     {
         Bullet bullet = _bulletPool.Get();
-        bullet.SetPosition(_firePointPosition.position);
-        bullet.SetRotation(_rotateHead.rotation);
+        bullet.transform.position = _firePointPosition.position;
+        bullet.transform.rotation = _rotateHead.rotation;
         bullet.gameObject.SetActive(true);
         bullet.Attack(_target.transform.position);
     }
 
     private void UpdateTarget()
     {
-        GameObject[] targets = GameObject.FindGameObjectsWithTag(enemyTarget);
         float shortesDistance = Mathf.Infinity;
-        GameObject currentTarget = null;
+        Enemy currentTarget = null;
 
-        foreach (GameObject enemy in targets)
+        foreach (Enemy enemy in _enemies)
         {
             float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
 
@@ -75,11 +120,7 @@ public class TowerDefense : MonoBehaviour
         }
 
         if (currentTarget != null && shortesDistance <= _rangeAttack)
-        {
             _target = currentTarget;
-
-            Shoot();
-        }
         else
             _target = null;
     }

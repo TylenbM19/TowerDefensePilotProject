@@ -14,7 +14,7 @@ public class HealthBar : MonoBehaviour
     private void OnEnable()
     {
         if (_playerWindow != null)
-            _playerWindow.OnHealthChanged += OnValueChanged;
+            _playerWindow.HealthChanged += OnValueChanged;
     }
 
     private void Start()
@@ -25,7 +25,7 @@ public class HealthBar : MonoBehaviour
 
     private void OnDisable()
     {
-        _playerWindow.OnHealthChanged -= OnValueChanged;
+        _playerWindow.HealthChanged -= OnValueChanged;
     }
 
     private void OnValueChanged(int value, int maxValue)

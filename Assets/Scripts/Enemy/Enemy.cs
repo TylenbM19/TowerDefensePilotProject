@@ -8,8 +8,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int _reward;
     [SerializeField] private ParticleSystem _particleSystem;
 
-    public static event UnityAction<int> OnReward;
-    public static event UnityAction<int> OnDamage;
+    public static event UnityAction<int> ConsumeReward;
+    public static event UnityAction<int> Damage;
+    public event UnityAction<Enemy> Died;
 
     private int _currentHealth;
 
@@ -25,7 +26,7 @@ public class Enemy : MonoBehaviour
         if (_currentHealth <= 0)
         {
             Die();
-            OnReward?.Invoke(_reward);
+            ConsumeReward?.Invoke(_reward);
         }
     }
 
@@ -33,14 +34,15 @@ public class Enemy : MonoBehaviour
     {
         if(other.TryGetComponent(out PointFinished point))
         {
+            Damage?.Invoke(-_damage);
             Die();
-            OnDamage?.Invoke(-_damage);
         }
     }
 
     private void Die()
     {
         Instantiate(_particleSystem, transform.position, Quaternion.identity);
+        Died?.Invoke(this);
         Destroy(gameObject);
     }
 }

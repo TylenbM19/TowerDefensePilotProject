@@ -17,8 +17,8 @@ public class EnemyMovement : MonoBehaviour
     private void Update()
     {
         Move(_target);
-        Rotation(_target);
-        CheckFromPosition();
+        Rotate(_target);
+        SearchPosition();
     }
 
     public void SetPath(Transform[] points)
@@ -26,7 +26,7 @@ public class EnemyMovement : MonoBehaviour
         _points = points;
     }
 
-    private void CheckFromPosition()
+    private void SearchPosition()
     {
         if (transform.position == _target.position)
         {
@@ -45,7 +45,7 @@ public class EnemyMovement : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, target.position, _speed * Time.deltaTime);
     }
 
-    private void Rotation(Transform target)
+    private void Rotate(Transform target)
     {
         Vector3 direction = target.transform.position - transform.position;
         Quaternion lookRotation = Quaternion.LookRotation(direction);

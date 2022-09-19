@@ -17,7 +17,7 @@ public class Service
         _services.Add(typeof(T), service);
     }
 
-    public T? Get<T>() where T : class
+    public T Get<T>() where T : class
     {
         if (_services.ContainsKey(typeof(T)) == false)
             return null;

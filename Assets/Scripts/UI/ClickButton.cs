@@ -5,9 +5,8 @@ using UnityEngine.UI;
 public class ClickButton : MonoBehaviour
 {
     [SerializeField] private Button _sellButton;
-    [SerializeField] private string _nameTowerDefense;
-
-    public static event UnityAction <string> ButtonClick;
+    [SerializeField] private TowerDefense _towerDefense;
+    [SerializeField] private Bilder _bilder;
 
     private void OnEnable()
     {
@@ -21,6 +20,6 @@ public class ClickButton : MonoBehaviour
 
     private void OnButtonClick()
     {
-        ButtonClick?.Invoke(_nameTowerDefense);
+        _bilder.SelectBulding(_towerDefense);
     }
 }

@@ -2,38 +2,21 @@ using UnityEngine;
 
 public class TowerPlace : MonoBehaviour
 {
-    private TowerDefense _tower;
+    private TowerDefense _tower = null;
     private Player _player;
 
     private void Start()
     {
         _player = Service.Instance.Get<Player>();
-        _player.OnTower += ApplyObject;
     }
 
-    private void OnDisable()
+    public void TryConstruct(TowerDefense towerDefense)
     {
-        _player.OnTower -= ApplyObject;
-    }
-
-    private void OnMouseDown()
-    {
-        if (_tower != null)
+        if (_tower == null && _player.CurrentEnergy >= towerDefense.Price)
         {
-            Instantiate();
-            _player.DisableBuild();
+            _tower = Instantiate(towerDefense, transform.position, Quaternion.identity);
+            _player.Bye(_tower.Price);
+            _tower = null;
         }
-    }
-
-    private void ApplyObject(TowerDefense? towerDefense)
-    {
-        _tower = towerDefense;
-    }
-
-    private void Instantiate()
-    {
-        Instantiate(_tower, transform.position, Quaternion.identity);
-        _player.Bye(_tower.Price);
-        _tower = null;
     }
 }
