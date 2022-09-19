@@ -25,7 +25,7 @@ public class TowerDefense : MonoBehaviour
         InvokeRepeating("UpdateTarget", 0f, 1f);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (_target == null)
             return;
@@ -51,9 +51,9 @@ public class TowerDefense : MonoBehaviour
     private void GetBullet()
     {
         Bullet bullet = _bulletPool.Get();
-        bullet.gameObject.SetActive(true);
         bullet.SetPosition(_firePointPosition.position);
         bullet.SetRotation(_rotateHead.rotation);
+        bullet.gameObject.SetActive(true);
         bullet.Attack(_target.transform.position);
     }
 

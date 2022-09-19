@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private float _speed = 0.1f;
@@ -66,7 +65,7 @@ public class Bullet : MonoBehaviour
     {
         while (_target != transform.position)
         {
-            transform.Translate(Vector3.forward * _speed);
+            transform.position = Vector3.MoveTowards(transform.position,_target,_speed);
             yield return _waitForFixed;
         }
     }
