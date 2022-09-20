@@ -4,7 +4,7 @@ public class Bilder : MonoBehaviour
 {
     [SerializeField] private Camera _camera;
 
-    private TowerDefense _selectedBulding = null;
+    private Tower _selectedBulding = null;
 
     private void Update()
     {
@@ -12,7 +12,7 @@ public class Bilder : MonoBehaviour
             BuldingSiteSearch();
     }
 
-    public void SelectBulding(TowerDefense bulding)
+    public void SelectBulding(Tower bulding)
     {
         _selectedBulding = bulding;
     }

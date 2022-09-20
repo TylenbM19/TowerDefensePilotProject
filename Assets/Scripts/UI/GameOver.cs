@@ -4,11 +4,11 @@ public class GameOver : MonoBehaviour
 {
     [SerializeField] private GameObject _plane;
 
-    private Player _player;
+    private GameManager _player;
 
     private void Awake()
     {
-        _player = Service.Instance.Get<Player>();
+        _player = Service.Instance.Get<GameManager>();
         _plane.SetActive(false);
     }
 
@@ -23,7 +23,8 @@ public class GameOver : MonoBehaviour
     }
 
     private void OnDie()
-    {    
+    {
+        Time.timeScale = 0;
         _plane.SetActive(true);
     }
 }

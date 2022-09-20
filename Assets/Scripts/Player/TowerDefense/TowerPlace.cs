@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class TowerPlace : MonoBehaviour
 {
-    private TowerDefense _tower = null;
-    private Player _player;
+    private Tower _tower = null;
+    private GameManager _player;
 
     private void Start()
     {
-        _player = Service.Instance.Get<Player>();
+        _player = Service.Instance.Get<GameManager>();
     }
 
-    public void TryConstruct(TowerDefense towerDefense)
+    public void TryConstruct(Tower towerDefense)
     {
         if (_tower == null && _player.CurrentEnergy >= towerDefense.Price)
         {

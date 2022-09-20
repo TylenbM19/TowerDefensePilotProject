@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class ClickButton : MonoBehaviour
 {
     [SerializeField] private Button _sellButton;
-    [SerializeField] private TowerDefense _towerDefense;
+    [SerializeField] private Tower _towerDefense;
     [SerializeField] private Bilder _bilder;
 
     private void OnEnable()

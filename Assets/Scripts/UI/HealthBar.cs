@@ -9,7 +9,7 @@ public class HealthBar : MonoBehaviour
     private Coroutine _coroutine;
     private float _speedChangeSlider = 1f;
     private float _changeValue = 1f;
-    private Player _playerWindow;
+    private GameManager _playerWindow;
 
     private void OnEnable()
     {
@@ -19,7 +19,7 @@ public class HealthBar : MonoBehaviour
 
     private void Start()
     {
-        _playerWindow = Service.Instance.Get<Player>();
+        _playerWindow = Service.Instance.Get<GameManager>();
         OnEnable();
     }
 

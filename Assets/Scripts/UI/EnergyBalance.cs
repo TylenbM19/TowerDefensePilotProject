@@ -4,7 +4,7 @@ using UnityEngine;
 public class EnergyBalance : MonoBehaviour
 {
     [SerializeField] private TMP_Text _energy;
-    private Player _playerWindow;
+    private GameManager _playerWindow;
 
     private void OnDisable()
     {
@@ -13,7 +13,7 @@ public class EnergyBalance : MonoBehaviour
 
     private void Start()
     {
-        _playerWindow = Service.Instance.Get<Player>();
+        _playerWindow = Service.Instance.Get<GameManager>();
         _energy.text = _playerWindow.CurrentEnergy.ToString();
         _playerWindow.CurrentBalanse += ChangeBalance;
     }

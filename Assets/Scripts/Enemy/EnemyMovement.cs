@@ -18,7 +18,7 @@ public class EnemyMovement : MonoBehaviour
     {
         Move(_target);
         Rotate(_target);
-        SearchPosition();
+        NextMovePoint();
     }
 
     public void SetPath(Transform[] points)
@@ -26,7 +26,7 @@ public class EnemyMovement : MonoBehaviour
         _points = points;
     }
 
-    private void SearchPosition()
+    private void NextMovePoint()
     {
         if (transform.position == _target.position)
         {
